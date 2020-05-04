@@ -1,0 +1,23 @@
+app:
+    build: .
+    command: node index.js # allows you to run docker-compose up to start the server immediately
+    volumes:
+      - .:/app
+    ports:
+      - '3000:3000'
+    links:
+      - db
+db:
+    image: mongo
+    volumes:
+      - ./data:/data/db
+
+# app creates a container called app
+# build: . will use the image built from the Dockerfile
+# volumes: - .:/app will share the inner docker /app folder's contents with the current local folder once built
+# ports defines the docker port that'll be mapped to your localhost port 
+# alias docker-enter="docker-compose run --rm --service-ports app /bin/bash"
+# alias docker-enter-again="docker-compose run --rm app /bin/bash"
+# To find the solution for your DB simply google where is data stored in <DB Name> or how to make <DB Name> data persist docker
+# e.g. Postgresql /var/lib/postgresql/data
+# alias docker-clean="docker ps -a | grep 'Exited\|Created' | cut -d ' ' -f 1 | xargs docker rm"
